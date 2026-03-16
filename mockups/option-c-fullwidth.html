@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option C — Full Width Stacked</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
+  
+  .app { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+  
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .header h1 { font-weight: 400; font-size: 1.25rem; }
+  .badge { background: #222; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #777; }
+  
+  /* OPTION C: Stacked — refs as small strip, then controls, then FULL WIDTH generated image */
+  .refs-strip { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+  .ref-card { background: #111; border: 1px solid #222; border-radius: 10px; padding: 0.5rem; width: 140px; flex-shrink: 0; }
+  .ref-card h3 { font-size: 0.55rem; color: #555; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .ref-img { width: 100%; aspect-ratio: 3/4; border-radius: 6px; object-fit: cover; border: 1px solid #333; }
+  
+  .controls-bar { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem; padding: 0.75rem; background: #111; border: 1px solid #222; border-radius: 8px; flex-wrap: wrap; }
+  .btn { padding: 0.6rem 1.5rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; border: none; }
+  .btn-primary { background: #fff; color: #000; }
+  .btn-secondary { background: #222; color: #fff; border: 1px solid #333; }
+  select { padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.8rem; background: #1a1a1a; color: #fff; border: 1px solid #333; }
+  .spacer { flex: 1; }
+  
+  /* Generated — FULL WIDTH, tall */
+  .generated-full { background: #111; border: 1px solid #222; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+  .generated-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .generated-header h3 { font-size: 0.65rem; color: #555; text-transform: uppercase; letter-spacing: 0.1em; }
+  .btn-download { background: #1a3320; color: #4ade80; border: 1px solid #2a4430; font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; }
+  .generated-img-wrap { background: #080808; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; min-height: 500px; }
+  .generated-img-wrap img { max-width: 100%; max-height: 80vh; object-fit: contain; }
+  
+  /* Comparison strip — show refs + generated side by side small */
+  .comparison { display: flex; gap: 0.5rem; margin-bottom: 1rem; align-items: flex-end; }
+  .comparison .thumb { width: 80px; border-radius: 6px; border: 1px solid #333; }
+  .comparison .arrow { color: #444; font-size: 1.2rem; padding: 0 0.25rem; }
+  .comparison .result-thumb { width: 80px; border-radius: 6px; border: 1px solid #238636; }
+  
+  .json-section { background: #111; border: 1px solid #222; border-radius: 8px; margin-bottom: 0.75rem; }
+  .json-header { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .json-header span { color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  
+  .description { color: #555; font-size: 0.7rem; margin-top: 1rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>Prompt Builder</h1>
+    <span class="badge">nano banana</span>
+  </div>
+  
+  <!-- Small ref strip -->
+  <div class="refs-strip">
+    <div class="ref-card">
+      <h3>Character</h3>
+      <img class="ref-img" src="https://picsum.photos/200/280?random=1" alt="Character">
+    </div>
+    <div class="ref-card">
+      <h3>Location</h3>
+      <img class="ref-img" src="https://picsum.photos/200/280?random=2" alt="Location">
+    </div>
+  </div>
+  
+  <!-- Controls bar -->
+  <div class="controls-bar">
+    <select><option>Gemini</option><option>DALL-E 3</option></select>
+    <select><option>Default Template</option><option>Mirror Selfie</option></select>
+    <button class="btn btn-secondary" style="font-size:0.75rem; padding: 0.5rem 0.75rem;">+ New</button>
+    <span class="spacer"></span>
+    <button class="btn btn-primary">Analyze</button>
+    <button class="btn btn-secondary">Generate</button>
+  </div>
+  
+  <!-- FULL WIDTH generated -->
+  <div class="generated-full">
+    <div class="generated-header">
+      <h3>Generated</h3>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <!-- Mini comparison -->
+        <img src="https://picsum.photos/200/280?random=1" style="width:30px;height:40px;border-radius:3px;object-fit:cover;border:1px solid #333;">
+        <span style="color:#444;font-size:0.7rem;">+</span>
+        <img src="https://picsum.photos/200/280?random=2" style="width:30px;height:40px;border-radius:3px;object-fit:cover;border:1px solid #333;">
+        <span style="color:#444;font-size:0.7rem;">→</span>
+        <button class="btn-download">Download</button>
+      </div>
+    </div>
+    <div class="generated-img-wrap">
+      <img src="https://picsum.photos/600/900?random=3" alt="Generated">
+    </div>
+  </div>
+  
+  <!-- JSON collapsed -->
+  <div class="json-section">
+    <div class="json-header">
+      <span>Template JSON</span>
+      <span style="color:#444;font-size:0.75rem">▶</span>
+    </div>
+  </div>
+  <div class="json-section">
+    <div class="json-header">
+      <span>Filled JSON</span>
+      <span style="color:#444;font-size:0.75rem">▶</span>
+    </div>
+  </div>
+  
+  <p class="description">Option C — Full width stacked. Refs as compact strip, controls in a bar, generated image takes the full width. Mini ref thumbnails in the header for comparison.</p>
+</div>
+</body>
+</html>

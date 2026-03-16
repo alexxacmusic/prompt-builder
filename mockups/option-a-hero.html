@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option A — Hero Generated Image</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
+  
+  .app { max-width: 1200px; margin: 0 auto; padding: 1.5rem; }
+  
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .header h1 { font-weight: 400; font-size: 1.25rem; }
+  .badge { background: #222; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #777; }
+  
+  /* OPTION A: Generated image is the HERO — big and center, refs are small on the side */
+  .main-layout { display: grid; grid-template-columns: 120px 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  
+  .refs { display: flex; flex-direction: column; gap: 0.75rem; }
+  .ref-card { background: #111; border: 1px solid #222; border-radius: 10px; padding: 0.5rem; }
+  .ref-card h3 { font-size: 0.55rem; color: #555; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .ref-img { width: 100%; aspect-ratio: 3/4; border-radius: 6px; object-fit: cover; border: 1px solid #333; }
+  .ref-placeholder { width: 100%; aspect-ratio: 3/4; border: 1px dashed #333; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #444; font-size: 0.65rem; }
+  
+  .generated-hero { background: #111; border: 1px solid #222; border-radius: 10px; padding: 1rem; min-height: 500px; display: flex; flex-direction: column; }
+  .generated-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .generated-header h3 { font-size: 0.65rem; color: #555; text-transform: uppercase; letter-spacing: 0.1em; }
+  .generated-img { flex: 1; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #080808; }
+  .generated-img img { max-width: 100%; max-height: 600px; object-fit: contain; border-radius: 6px; }
+  .generated-placeholder { color: #333; font-size: 0.8rem; }
+  
+  .controls { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+  .btn { padding: 0.6rem 1.5rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; border: none; }
+  .btn-primary { background: #fff; color: #000; }
+  .btn-secondary { background: #222; color: #fff; border: 1px solid #333; }
+  .btn-download { background: #1a3320; color: #4ade80; border: 1px solid #2a4430; font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+  
+  select { padding: 0.4rem 0.75rem; border-radius: 6px; font-size: 0.8rem; background: #1a1a1a; color: #fff; border: 1px solid #333; }
+  
+  .json-section { background: #111; border: 1px solid #222; border-radius: 8px; margin-bottom: 0.75rem; }
+  .json-header { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .json-header span { color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .json-toggle { color: #444; font-size: 0.75rem; }
+  
+  .description { color: #555; font-size: 0.7rem; margin-top: 0.5rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>Prompt Builder</h1>
+    <span class="badge">nano banana</span>
+  </div>
+  
+  <div class="main-layout">
+    <!-- Small refs on left -->
+    <div class="refs">
+      <div class="ref-card">
+        <h3>Character</h3>
+        <img class="ref-img" src="https://picsum.photos/200/280?random=1" alt="Character">
+      </div>
+      <div class="ref-card">
+        <h3>Location</h3>
+        <img class="ref-img" src="https://picsum.photos/200/280?random=2" alt="Location">
+      </div>
+    </div>
+    
+    <!-- Big generated image -->
+    <div class="generated-hero">
+      <div class="generated-header">
+        <h3>Generated</h3>
+        <button class="btn-download">Download</button>
+      </div>
+      <div class="generated-img">
+        <img src="https://picsum.photos/600/900?random=3" alt="Generated">
+      </div>
+    </div>
+  </div>
+  
+  <div class="controls">
+    <select><option>Gemini</option><option>DALL-E 3</option></select>
+    <button class="btn btn-primary">Analyze</button>
+    <button class="btn btn-secondary">Generate</button>
+    <select><option>Default Template</option><option>Mirror Selfie (custom)</option></select>
+    <button class="btn btn-secondary" style="font-size:0.75rem">+ New</button>
+  </div>
+  
+  <div class="json-section">
+    <div class="json-header">
+      <span>Template JSON</span>
+      <span class="json-toggle">▶</span>
+    </div>
+  </div>
+  <div class="json-section">
+    <div class="json-header">
+      <span>Filled JSON</span>
+      <span class="json-toggle">▶</span>
+    </div>
+  </div>
+  
+  <p class="description">Option A — Generated image is the hero. Refs are small thumbnails on the side.</p>
+</div>
+</body>
+</html>

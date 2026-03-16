@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option B — Split View</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
+  
+  .app { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+  
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .header h1 { font-weight: 400; font-size: 1.25rem; }
+  .badge { background: #222; padding: 0.25rem 0.6rem; border-radius: 4px; font-size: 0.7rem; color: #777; }
+  
+  /* OPTION B: 50/50 split — left side is input (refs + controls), right side is output (big image) */
+  .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; min-height: 70vh; }
+  
+  .input-side { display: flex; flex-direction: column; gap: 1rem; }
+  
+  .refs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .ref-card { background: #111; border: 1px solid #222; border-radius: 10px; padding: 0.75rem; }
+  .ref-card h3 { font-size: 0.6rem; color: #555; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+  .ref-img { width: 100%; aspect-ratio: 3/4; border-radius: 6px; object-fit: cover; border: 1px solid #333; }
+  
+  .controls { display: flex; flex-direction: column; gap: 0.75rem; }
+  .controls-row { display: flex; gap: 0.5rem; align-items: center; }
+  .btn { padding: 0.6rem 1.5rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; cursor: pointer; border: none; flex: 1; }
+  .btn-primary { background: #fff; color: #000; }
+  .btn-secondary { background: #222; color: #fff; border: 1px solid #333; }
+  
+  select { padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.8rem; background: #1a1a1a; color: #fff; border: 1px solid #333; flex: 1; }
+  
+  .json-section { background: #111; border: 1px solid #222; border-radius: 8px; flex: 1; }
+  .json-header { padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .json-header span { color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .json-body { padding: 0 1rem 1rem; }
+  .json-body textarea { width: 100%; height: 200px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 6px; color: #888; padding: 0.75rem; font-family: 'SF Mono', monospace; font-size: 0.7rem; line-height: 1.4; resize: vertical; }
+  
+  .output-side { background: #111; border: 1px solid #222; border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; }
+  .output-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+  .output-header h3 { font-size: 0.65rem; color: #555; text-transform: uppercase; letter-spacing: 0.1em; }
+  .btn-download { background: #1a3320; color: #4ade80; border: 1px solid #2a4430; font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; }
+  .output-img { flex: 1; display: flex; align-items: center; justify-content: center; background: #080808; border-radius: 8px; overflow: hidden; }
+  .output-img img { max-width: 100%; max-height: 80vh; object-fit: contain; }
+  
+  .description { color: #555; font-size: 0.7rem; margin-top: 1rem; text-align: center; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>Prompt Builder</h1>
+    <span class="badge">nano banana</span>
+  </div>
+  
+  <div class="split-layout">
+    <!-- Left: Input -->
+    <div class="input-side">
+      <div class="refs-row">
+        <div class="ref-card">
+          <h3>Character</h3>
+          <img class="ref-img" src="https://picsum.photos/300/400?random=1" alt="Character">
+        </div>
+        <div class="ref-card">
+          <h3>Location</h3>
+          <img class="ref-img" src="https://picsum.photos/300/400?random=2" alt="Location">
+        </div>
+      </div>
+      
+      <div class="controls">
+        <div class="controls-row">
+          <select><option>Gemini</option><option>DALL-E 3</option></select>
+          <select><option>Default Template</option><option>Mirror Selfie</option></select>
+          <button class="btn btn-secondary" style="flex:0; padding: 0.5rem 0.75rem; font-size: 0.75rem;">+ New</button>
+        </div>
+        <div class="controls-row">
+          <button class="btn btn-primary">Analyze</button>
+          <button class="btn btn-secondary">Generate</button>
+        </div>
+      </div>
+      
+      <div class="json-section">
+        <div class="json-header">
+          <span>Template JSON</span>
+          <span style="color:#444;font-size:0.75rem">▼</span>
+        </div>
+        <div class="json-body">
+          <textarea readonly>{ "meta": { "quality": "ultra photorealistic", "resolution": "8k" }, "character_lock": { "eyes": "brown", "body": { "type": "athletic" } } }</textarea>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right: Output (big) -->
+    <div class="output-side">
+      <div class="output-header">
+        <h3>Generated</h3>
+        <button class="btn-download">Download</button>
+      </div>
+      <div class="output-img">
+        <img src="https://picsum.photos/600/900?random=3" alt="Generated">
+      </div>
+    </div>
+  </div>
+  
+  <p class="description">Option B — 50/50 split. Left: refs + controls + JSON. Right: big generated image.</p>
+</div>
+</body>
+</html>

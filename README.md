@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nano Banana — Prompt Builder
 
-## Getting Started
+A tool for generating AI images using reference photos. Upload a character and a location, let the app analyze them, then generate the final image with Gemini or DALL-E 3.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## How It Works
+
+### The Flow
+
+```
+Upload images → Analyze → (edit JSON) → Generate → Download
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**1. Upload References**
+- **Character Reference** — a photo of the person (face, body, outfit)
+- **Location Reference** — a photo of the environment/background (optional)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**2. Analyze**
+Sends both images to GPT-4o Vision. It reads the images and fills in the empty fields in your JSON template — things like eye color, body type, outfit details, lighting type, time of day, etc.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The analyzed JSON replaces the template in place so you can review and edit before generating.
 
-## Learn More
+**3. Edit (optional)**
+The Template JSON section is editable. You can tweak anything before hitting Generate.
 
-To learn more about Next.js, take a look at the following resources:
+**4. Generate**
+Sends the filled JSON + both reference images to the selected model (Gemini or DALL-E 3). Returns a generated image.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**5. Download**
+Click the image to fullscreen, or hit Download.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## The JSON Template
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The template is a structured prompt. Key sections:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{
+  "meta": {
+    "quality": "ultra photorealistic",
+    "resolution": "8k",
+    "camera": "iPhone 15 Pro",
+    "aspect_ratio": "9:16",
+    "style": "raw iphone mirror selfie"
+  },
+  "character_lock": {
+    "eyes": "",        ← filled by Analyze
+    "body": {
+      "type": "",      ← filled by Analyze
+      "chest": "",     ← filled by Analyze
+      ...
+    },
+    "outfit": {
+      "details": ""    ← filled by Analyze
+    }
+  },
+  "scene": {
+    "location": "ref 1",
+    "time": "",        ← filled by Analyze (if location image provided)
+    "lighting": {
+      "type": "",      ← filled by Analyze
+      "effect": ""
+    }
+  },
+  "photography_rules": {
+    "thirst_trap_energy": true,
+    "realism": "very high"
+  }
+}
+```
+
+**Empty string fields (`""`) get filled by Analyze.** Fields with values are kept as-is.
+
+---
+
+## Text Presets (Placeholder Format)
+
+Besides JSON, you can use plain text prompts with placeholders:
+
+```
+Mirror selfie of a woman with [CHAR-HAIR] hair wearing [CHAR-OUTFIT],
+standing in [LOC-DESCRIPTION] with [LOC-LIGHTING] lighting.
+```
+
+- `[CHAR-*]` — filled from the character image
+- `[LOC-*]` — filled from the location image
+
+Analyze replaces the placeholders with descriptions extracted from the images.
+
+---
+
+## Presets
+
+- **Default Template** — mirror selfie preset (JSON format)
+- **memory selfie / portrait / landscape** — built-in presets (coming soon)
+- **Custom presets** — create your own via the `+ New` button. Saved in localStorage.
+
+---
+
+## Models
+
+| Model | Notes |
+|-------|-------|
+| **Gemini** | Default. Uses Gemini imagen via Nano Banana skill. |
+| **DALL-E 3** | OpenAI image generation. |
+
+---
+
+## API Keys Required (Vercel env vars)
+
+| Variable | Used For |
+|----------|----------|
+| `OPENAI_API_KEY` | Analyze (GPT-4o Vision) + DALL-E generation |
+| `GEMINI_API_KEY` | Gemini image generation |
+
+---
+
+## Local Dev
+
+```bash
+npm install
+npm run dev
+# → http://localhost:3000
+```
+
+---
+
+## Deploy
+
+```bash
+npx vercel --prod --token YOUR_TOKEN --yes
+```
+
+Live URL: https://prompt-builder-eta.vercel.app
